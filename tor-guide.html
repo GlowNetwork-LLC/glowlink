@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Use Tor to Access GlowLinks | Tor Browser Guide for Beginners</title>
+<meta name="description" content="A step-by-step guide to using Tor Browser to reach GlowLinks and .onion sites. Download, connect, use bridges, verify pgp.txt files for tampering, and learn the real difference between Tor and a VPN. Works on Windows, macOS, Linux, Android and iOS.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Glow LLC">
+<meta name="theme-color" content="#06040f">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://glowlinks.net/tor-guide.html">
+<link rel="icon" type="image/png" href="the-glow-network.png">
+<link rel="apple-touch-icon" href="the-glow-network.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="GlowLinks">
+<meta property="og:title" content="How to Use Tor to Access GlowLinks">
+<meta property="og:description" content="Download Tor Browser, connect, check it works and open .onion mirrors safely. A plain-English guide for every device.">
+<meta property="og:url" content="https://glowlinks.net/tor-guide.html">
+<meta property="og:image" content="https://glowlinks.net/the-glow-network.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Use Tor to Access GlowLinks">
+<meta name="twitter:description" content="A plain-English Tor Browser guide for Windows, macOS, Linux, Android and iOS.">
+<meta name="twitter:image" content="https://glowlinks.net/the-glow-network.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebPage","@id":"https://glowlinks.net/tor-guide.html#page","url":"https://glowlinks.net/tor-guide.html","name":"How to Use Tor to Access GlowLinks","isPartOf":{"@type":"WebSite","name":"GlowLinks","url":"https://glowlinks.net/"},"publisher":{"@type":"Organization","@id":"https://glowllc.net/#org","name":"Glow LLC","url":"https://glowllc.net/"},"inLanguage":"en"},
+{"@type":"HowTo","name":"How to use Tor Browser to access GlowLinks","description":"Install Tor Browser, connect to the Tor network and open GlowLinks or its onion mirror.","totalTime":"PT10M","step":[
+{"@type":"HowToStep","position":1,"name":"Download Tor Browser","text":"Go to torproject.org/download and download Tor Browser for your device. Only use the official site."},
+{"@type":"HowToStep","position":2,"name":"Install it","text":"Run the installer, open the disk image or extract the archive, depending on your system."},
+{"@type":"HowToStep","position":3,"name":"Connect","text":"Open Tor Browser and press Connect. If Tor is blocked, choose Configure Connection and use a bridge."},
+{"@type":"HowToStep","position":4,"name":"Check that Tor works","text":"Open check.torproject.org inside Tor Browser and look for the congratulations message."},
+{"@type":"HowToStep","position":5,"name":"Open GlowLinks","text":"Go to glowlinks.net, or paste the onion mirror address listed there into the address bar."},
+{"@type":"HowToStep","position":6,"name":"Pick a security level","text":"Open the shield icon, choose Security Settings and select Standard, Safer or Safest."}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is it legal to use Tor?","acceptedAnswer":{"@type":"Answer","text":"Tor is legal in most countries and is used by journalists, researchers and everyday people for privacy. Laws differ by country, so check the rules where you live."}},
+{"@type":"Question","name":"Do I need Tor to use GlowLinks?","acceptedAnswer":{"@type":"Answer","text":"No. GlowLinks works in a normal browser at glowlinks.net. Tor is optional and is only needed for the .onion mirrors or for extra privacy."}},
+{"@type":"Question","name":"What is a .onion address?","acceptedAnswer":{"@type":"Answer","text":"A .onion address is a website address that only works inside the Tor network. Current addresses are 56 characters long followed by .onion."}},
+{"@type":"Question","name":"Can I use Tor on my phone?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tor Browser is available for Android. On iPhone and iPad, the Tor Project recommends Onion Browser."}},
+{"@type":"Question","name":"Why is Tor slow?","acceptedAnswer":{"@type":"Answer","text":"Your traffic is passed through three relays around the world, which adds delay. Pages load more slowly than usual, and that is normal."}},
+{"@type":"Question","name":"Is Tor the same as a VPN?","acceptedAnswer":{"@type":"Answer","text":"No. A VPN routes your traffic through one provider you have to trust. Tor sends it through three volunteer relays so no single relay sees both who you are and where you go."}},
+{"@type":"Question","name":"How do I check a pgp.txt file for tampering?","acceptedAnswer":{"@type":"Answer","text":"Install GnuPG, import the site's public key and confirm its fingerprint from more than one independent source, then run gpg --verify pgp.txt. A Good signature message with a matching fingerprint means the file was not changed after signing. BAD signature means it was altered."}},
+{"@type":"Question","name":"Should I use a VPN together with Tor?","acceptedAnswer":{"@type":"Answer","text":"Most people do not need to. Tor over VPN hides Tor use from your internet provider but adds a company that can see you connect to Tor. If you only need to hide Tor use, bridges are usually the better choice."}},
+{"@type":"Question","name":"Why do .onion sites use http instead of https?","acceptedAnswer":{"@type":"Answer","text":"Onion services are already encrypted and authenticated by Tor, so most use plain http://. HTTPS matters for normal (clearnet) sites that do not end in .onion, where the exit relay could otherwise read your traffic."}}]}
+]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06040f; --panel:rgba(255,255,255,.045); --line:rgba(255,255,255,.1); --text:#f4f2ff; --muted:#a29fbd; --pink:#ff3d7f; --violet:#8b5cff; --cyan:#22d3ee; --ok:#34d399; --mx:50%; --my:30%}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth; scroll-padding-top:90px}
+body{background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.65; overflow-x:hidden; -webkit-font-smoothing:antialiased}
+a{color:inherit; text-decoration:none}
+img{display:block; max-width:100%}
+button,input{font:inherit; color:inherit}
+button{cursor:pointer; border:0; background:none}
+.skip{position:absolute; left:-9999px; top:8px; z-index:100; background:var(--pink); color:#fff; padding:10px 16px; border-radius:8px; font-weight:600}
+.skip:focus{left:8px}
+:focus-visible{outline:2px solid var(--cyan); outline-offset:3px; border-radius:6px}
+.wrap{width:min(1120px,92%); margin-inline:auto}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif; letter-spacing:-.03em}
+.sky{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+.orb{position:absolute; border-radius:50%; filter:blur(90px); opacity:.5; will-change:transform}
+.o1{width:520px; height:520px; background:var(--violet); top:-120px; left:-100px; animation:d1 22s ease-in-out infinite alternate}
+.o2{width:460px; height:460px; background:var(--pink); top:25%; right:-140px; animation:d2 26s ease-in-out infinite alternate}
+.o3{width:420px; height:420px; background:var(--cyan); bottom:-160px; left:30%; opacity:.3; animation:d3 30s ease-in-out infinite alternate}
+@keyframes d1{to{transform:translate(220px,160px) scale(1.2)}}
+@keyframes d2{to{transform:translate(-260px,120px) scale(.85)}}
+@keyframes d3{to{transform:translate(-240px,-140px) scale(1.25)}}
+.grain{position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px); background-size:34px 34px; mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%); -webkit-mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%)}
+.spot{position:absolute; inset:0; background:radial-gradient(520px circle at var(--mx) var(--my),rgba(139,92,255,.16),transparent 65%)}
+header,main,footer{position:relative; z-index:1}
+header{position:sticky; top:0; z-index:30; background:rgba(6,4,15,.7); backdrop-filter:blur(16px); border-bottom:1px solid var(--line)}
+.bar{display:flex; align-items:center; justify-content:space-between; gap:20px; padding:13px 0}
+.mark{display:flex; align-items:center; gap:12px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.15rem}
+.mark img{width:34px; height:34px; border-radius:9px; box-shadow:0 0 24px rgba(255,61,127,.55)}
+header nav ul{display:flex; gap:4px; list-style:none}
+header nav a{display:block; padding:8px 13px; border-radius:999px; font-size:.9rem; color:var(--muted); transition:background .2s,color .2s}
+header nav a:hover{background:var(--panel); color:var(--text)}
+.nav-back{border:1px solid var(--line)}
+.bar2{height:3px; background:rgba(255,255,255,.06)}
+.bar2 i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--pink),var(--violet),var(--cyan)); transition:width .4s}
+.hero{padding:clamp(48px,7vw,96px) 0 clamp(28px,4vw,52px)}
+.pill{display:inline-flex; align-items:center; gap:10px; padding:7px 14px 7px 10px; border:1px solid var(--line); border-radius:999px; background:var(--panel); font-size:.84rem; color:var(--muted)}
+.dot{width:8px; height:8px; border-radius:50%; background:var(--ok); animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}80%,100%{box-shadow:0 0 0 9px rgba(52,211,153,0)}}
+h1{margin-top:20px; font-size:clamp(2.3rem,6vw,4.4rem); line-height:1.03; font-weight:700; max-width:18ch}
+.shine{background:linear-gradient(100deg,#fff 0%,var(--pink) 30%,var(--violet) 55%,var(--cyan) 80%,#fff 100%); background-size:240% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 7s linear infinite}
+@keyframes shine{to{background-position:-240% 0}}
+.lead{margin-top:20px; color:var(--muted); font-size:1.1rem; max-width:60ch}
+.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:30px}
+.btn{display:inline-flex; align-items:center; gap:10px; padding:14px 22px; border-radius:14px; font-weight:600; border:1px solid var(--line); background:var(--panel); transition:transform .25s,border-color .25s}
+.btn:hover{transform:translateY(-3px); border-color:rgba(255,255,255,.35)}
+.btn.primary{background:linear-gradient(135deg,var(--pink),var(--violet)); border-color:transparent; box-shadow:0 14px 40px -12px rgba(255,61,127,.8)}
+.layout{display:grid; grid-template-columns:230px 1fr; gap:clamp(24px,4vw,56px); align-items:start}
+.toc{position:sticky; top:96px; display:grid; gap:2px; padding:14px; border:1px solid var(--line); border-radius:18px; background:var(--panel)}
+.toc b{font-family:'Space Grotesk',sans-serif; font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); padding:4px 10px 8px}
+.toc a{padding:7px 10px; border-radius:10px; font-size:.9rem; color:var(--muted); transition:background .2s,color .2s}
+.toc a:hover,.toc a.on{background:rgba(255,255,255,.07); color:var(--text)}
+.content section{padding:0 0 clamp(40px,6vw,72px)}
+h2{font-size:clamp(1.7rem,3.4vw,2.4rem); line-height:1.1; font-weight:700}
+.intro{margin-top:10px; color:var(--muted); max-width:62ch}
+.cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px}
+.card{position:relative; padding:22px; border-radius:20px; border:1px solid var(--line); background:var(--panel); overflow:hidden}
+.card::before{content:""; position:absolute; inset:0; background:radial-gradient(380px circle at var(--tx,50%) var(--ty,0%),rgba(255,255,255,.08),transparent 60%); opacity:0; transition:opacity .3s; pointer-events:none}
+.card:hover::before{opacity:1}
+.card h3{font-size:1.1rem; margin-bottom:6px}
+.card p{color:var(--muted); font-size:.92rem}
+.step{display:grid; grid-template-columns:44px 1fr; gap:16px; padding:22px; margin-top:16px; border-radius:22px; border:1px solid var(--line); background:var(--panel); transition:border-color .3s,background .3s}
+.step.done{border-color:rgba(52,211,153,.5); background:rgba(52,211,153,.05)}
+.num{width:44px; height:44px; border-radius:50%; display:grid; place-items:center; font-family:'Space Grotesk',sans-serif; font-weight:700; background:linear-gradient(135deg,var(--pink),var(--violet))}
+.step.done .num{background:var(--ok); color:#04130d}
+.step h3{font-size:1.25rem; margin-bottom:6px}
+.step p,.step li{color:var(--muted); font-size:.95rem}
+.step ul,.step ol{margin:10px 0 0 20px; display:grid; gap:6px}
+.step strong{color:var(--text)}
+.step .row{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:14px}
+.chk{display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; border:1px solid var(--line); font-size:.86rem; background:rgba(255,255,255,.04)}
+.chk[aria-pressed="true"]{background:rgba(52,211,153,.18); border-color:rgba(52,211,153,.6); color:#b6f5dc}
+.tabs{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px}
+.tabs button{padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); font-size:.86rem; transition:background .2s}
+.tabs button[aria-selected="true"]{background:linear-gradient(135deg,var(--pink),var(--violet)); border-color:transparent; font-weight:600}
+.pane{display:none; margin-top:12px; padding:16px 18px; border-radius:14px; background:rgba(0,0,0,.3); border:1px solid var(--line)}
+.pane.on{display:block}
+.pane ol{margin:0 0 0 18px; display:grid; gap:6px; font-size:.93rem; color:var(--muted)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.86rem; padding:2px 7px; border-radius:6px; background:rgba(255,255,255,.08); color:#ffd1e1}
+.tool{margin-top:22px; padding:22px; border-radius:22px; border:1px solid var(--line); background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(139,92,255,.1))}
+.tool h3{font-size:1.2rem}
+.tool input{width:100%; margin-top:14px; padding:14px 16px; border-radius:14px; border:1px solid var(--line); background:rgba(0,0,0,.35); font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.9rem}
+.verdict{margin-top:12px; padding:10px 14px; border-radius:12px; font-size:.9rem; display:none}
+.verdict.ok{display:block; background:rgba(52,211,153,.14); border:1px solid rgba(52,211,153,.5); color:#b6f5dc}
+.verdict.bad{display:block; background:rgba(255,61,127,.12); border:1px solid rgba(255,61,127,.45); color:#ffc2d4}
+.tips{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:24px}
+.tip{display:flex; gap:12px; padding:18px; border-radius:18px; border:1px solid var(--line); background:var(--panel)}
+.tip span{font-size:1.4rem; line-height:1}
+.tip h3{font-size:1rem; margin-bottom:2px}
+.tip p{color:var(--muted); font-size:.9rem}
+.acc{display:grid; gap:10px; margin-top:24px}
+.acc details{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:2px 20px}
+.acc details[open]{border-color:rgba(139,92,255,.6)}
+.acc summary{cursor:pointer; padding:17px 0; font-weight:600; list-style:none; display:flex; justify-content:space-between; gap:16px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+"; color:var(--pink); font-size:1.4rem; line-height:1; transition:transform .25s}
+.acc details[open] summary::after{transform:rotate(45deg)}
+.acc p{padding:0 0 17px; color:var(--muted); font-size:.95rem}
+.acc a,.step a,.intro a{color:var(--cyan); border-bottom:1px solid rgba(34,211,238,.4)}
+.https{margin-top:24px; padding:clamp(18px,3vw,28px); border-radius:24px; border:1px solid rgba(34,211,238,.45); background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(139,92,255,.1))}
+.https h3{font-size:1.4rem; margin-bottom:6px}
+.https>p{color:var(--muted); max-width:66ch}
+.hh{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:20px}
+.hh>div{padding:18px 20px; border-radius:18px; border:1px solid var(--line); background:rgba(0,0,0,.3)}
+.hh h4{font-family:'Space Grotesk',sans-serif; font-size:1.1rem; margin-bottom:2px}
+.hh .ex{display:inline-block; margin:4px 0 10px; padding:3px 10px; border-radius:8px; background:rgba(255,255,255,.08); font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.8rem; color:#ffd1e1; word-break:break-all}
+.hh ul{margin:0 0 0 18px; display:grid; gap:7px; color:var(--muted); font-size:.92rem}
+.hh .on{border-color:rgba(52,211,153,.45)}
+.hh .cl{border-color:rgba(251,191,36,.45)}
+.warn{margin-top:16px; padding:12px 16px; border-radius:14px; background:rgba(255,61,127,.1); border:1px solid rgba(255,61,127,.4); font-size:.9rem; color:#ffd0dd}
+.pgp{margin-top:24px; padding:clamp(18px,3vw,28px); border-radius:24px; border:1px solid rgba(139,92,255,.45); background:linear-gradient(135deg,rgba(255,61,127,.08),rgba(139,92,255,.12))}
+.pgp h3{font-size:1.4rem; margin-bottom:6px}
+.pgp>p{color:var(--muted); max-width:66ch}
+.pgp ol{margin:18px 0 0; padding:0; list-style:none; counter-reset:p; display:grid; gap:16px}
+.pgp li{counter-increment:p; position:relative; padding-left:44px; color:var(--muted); font-size:.95rem}
+.pgp li::before{content:counter(p); position:absolute; left:0; top:0; width:30px; height:30px; border-radius:50%; display:grid; place-items:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:.9rem; background:linear-gradient(135deg,var(--pink),var(--violet)); color:#fff}
+.pgp li strong{color:var(--text)}
+.cmd{display:flex; gap:10px; align-items:center; justify-content:space-between; padding:9px 12px; margin:8px 0 0; border-radius:12px; background:rgba(0,0,0,.45); border:1px solid var(--line); overflow-x:auto}
+.cmd code{background:none; padding:0; color:#ffd1e1; white-space:nowrap}
+.cp{flex:none; padding:5px 12px; border-radius:8px; background:rgba(255,255,255,.1); font-size:.78rem; transition:background .2s}
+.cp:hover{background:rgba(255,255,255,.2)}
+.res{display:grid; gap:8px; margin-top:10px}
+.res div{padding:10px 14px; border-radius:12px; font-size:.9rem; border:1px solid var(--line); background:rgba(0,0,0,.25)}
+.res .g{border-color:rgba(52,211,153,.5)} .res .b{border-color:rgba(255,61,127,.5)} .res .w{border-color:rgba(251,191,36,.5)}
+.res b{color:var(--text)}
+.insp{margin-top:22px; padding:18px; border-radius:18px; background:rgba(0,0,0,.3); border:1px solid var(--line)}
+.insp h4{font-family:'Space Grotesk',sans-serif; font-size:1.05rem; margin-bottom:4px}
+.insp p{color:var(--muted); font-size:.88rem}
+.insp textarea{width:100%; min-height:150px; margin-top:12px; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:rgba(0,0,0,.4); color:var(--text); font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.78rem; resize:vertical}
+.rep{list-style:none; margin:12px 0 0 !important; padding:0 !important; display:grid; gap:6px}
+.rep li{padding:8px 12px !important; border-radius:10px; font-size:.86rem; border:1px solid var(--line)}
+.rep li::before{display:none !important}
+.rep li.ok{border-color:rgba(52,211,153,.5); background:rgba(52,211,153,.08); color:#b6f5dc}
+.rep li.no{border-color:rgba(255,61,127,.5); background:rgba(255,61,127,.08); color:#ffc2d4}
+.rep li.wn{border-color:rgba(251,191,36,.5); background:rgba(251,191,36,.08); color:#fde68a}
+.rep code{word-break:break-all}
+.choose{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.choose button{padding:10px 16px; border-radius:999px; border:1px solid var(--line); background:var(--panel); font-size:.9rem; transition:background .2s,border-color .2s}
+.choose button:hover{border-color:var(--cyan)}
+.choose button[aria-pressed="true"]{background:linear-gradient(135deg,var(--pink),var(--violet)); border-color:transparent; font-weight:600}
+.answer{margin-top:14px; padding:18px 20px; border-radius:18px; border:1px solid rgba(34,211,238,.45); background:rgba(34,211,238,.08); min-height:84px; color:var(--muted)}
+.answer b{color:var(--text); display:block; font-family:'Space Grotesk',sans-serif; font-size:1.15rem; margin-bottom:4px}
+.tw{overflow-x:auto; margin-top:26px; border:1px solid var(--line); border-radius:18px}
+table{width:100%; border-collapse:collapse; min-width:620px; font-size:.9rem}
+th,td{padding:13px 16px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+thead th{font-family:'Space Grotesk',sans-serif; background:rgba(255,255,255,.05)}
+th:first-child,td:first-child{color:var(--text); font-weight:600; width:24%}
+td{color:var(--muted)}
+.two{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:22px}
+footer{margin-top:20px; border-top:1px solid var(--line); padding:44px 0 30px; color:var(--muted); font-size:.9rem; background:rgba(6,4,15,.6)}
+.fg{display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px}
+.fg a:hover{color:var(--pink)}
+.fl{display:flex; flex-wrap:wrap; gap:18px}
+.fine{margin-top:26px; padding-top:18px; border-top:1px solid var(--line); font-size:.82rem}
+.rv{opacity:0; transform:translateY(24px); transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1; transform:none}
+.toast{position:fixed; left:50%; bottom:26px; z-index:60; transform:translate(-50%,30px); opacity:0; padding:12px 20px; border-radius:999px; background:#14102a; border:1px solid var(--line); font-size:.9rem; transition:.3s; pointer-events:none}
+.toast.show{transform:translate(-50%,0); opacity:1}
+@media (max-width:960px){.layout{grid-template-columns:1fr}.toc{display:none}.cards,.tips,.two,.hh{grid-template-columns:1fr}header nav li:not(:last-child){display:none}}
+@media (max-width:520px){.step{grid-template-columns:1fr}.cta .btn{width:100%; justify-content:center}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.orb,.shine,.dot{animation:none}.rv{opacity:1; transform:none; transition:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the guide</a>
+<div class="sky" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grain"></div><div class="spot"></div></div>
+
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="https://glowlinks.net/" aria-label="GlowLinks home"><img src="the-glow-network.png" alt="" width="34" height="34">GlowLinks</a>
+    <nav aria-label="Main"><ul>
+      <li><a href="#steps">Steps</a></li>
+      <li><a href="#bridges">Bridges</a></li>
+      <li><a href="#safety">Stay safe</a></li>
+      <li><a href="#vpn">Tor vs VPN</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a class="nav-back" href="https://glowlinks.net/">Back to GlowLinks</a></li>
+    </ul></nav>
+  </div>
+  <div class="bar2" aria-hidden="true"><i id="prog"></i></div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <span class="pill"><span class="dot"></span>Beginner guide &middot; about 10 minutes</span>
+      <h1>How to use <span class="shine">Tor</span> to reach GlowLinks</h1>
+      <p class="lead">A plain-English walkthrough for Windows, macOS, Linux, Android and iPhone. Install Tor Browser, connect, check it works and open GlowLinks or its onion mirror.</p>
+      <div class="cta">
+        <a class="btn primary" href="#steps">Start the guide</a>
+        <a class="btn" href="https://www.torproject.org/download/" target="_blank" rel="noopener">Download Tor Browser</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap layout">
+    <aside class="toc" id="toc" aria-label="On this page">
+      <b>On this page</b>
+      <a href="#what">What is Tor</a>
+      <a href="#steps">Step by step</a>
+      <a href="#onion">Onion address check</a>
+      <a href="#bridges">If Tor is blocked</a>
+      <a href="#safety">Stay safe</a>
+      <a href="#https">HTTP vs HTTPS</a>
+      <a href="#pgp">Check pgp.txt</a>
+      <a href="#trouble">Troubleshooting</a>
+      <a href="#vpn">Tor vs VPN</a>
+      <a href="#faq">FAQ</a>
+    </aside>
+
+    <div class="content">
+      <section id="what">
+        <h2 class="rv">What is Tor?</h2>
+        <p class="intro rv">Tor is a free network run by volunteers. Tor Browser sends your traffic through three relays before it reaches a site, so no single relay knows both who you are and where you are going. GlowLinks works in any browser, and Tor is there when you want extra privacy or need the onion mirror.</p>
+        <div class="cards">
+          <div class="card rv"><h3>Private browsing</h3><p>Websites see a Tor exit relay instead of your own address.</p></div>
+          <div class="card rv"><h3>Onion addresses</h3><p>.onion sites only open inside Tor and stay encrypted from end to end.</p></div>
+          <div class="card rv"><h3>Not magic</h3><p>Tor hides your location, not what you type. Logging in to personal accounts can still identify you.</p></div>
+        </div>
+      </section>
+
+      <section id="steps">
+        <h2 class="rv">Step by step</h2>
+        <p class="intro rv">Tick each step as you finish it. Your progress is saved on this device.</p>
+
+        <div class="step rv" data-s="1">
+          <div class="num">1</div>
+          <div>
+            <h3>Download Tor Browser</h3>
+            <p>Only download from the official site, <a href="https://www.torproject.org/download/" target="_blank" rel="noopener">torproject.org/download</a>. Copies from anywhere else can be tampered with.</p>
+            <div class="tabs" role="tablist" aria-label="Choose your device" id="os">
+              <button role="tab" data-os="win" aria-selected="false">Windows</button>
+              <button role="tab" data-os="mac" aria-selected="false">macOS</button>
+              <button role="tab" data-os="lin" aria-selected="false">Linux</button>
+              <button role="tab" data-os="and" aria-selected="false">Android</button>
+              <button role="tab" data-os="ios" aria-selected="false">iPhone / iPad</button>
+            </div>
+            <div class="pane" data-p="win"><ol><li>On the download page choose <strong>Windows</strong> and save the installer.</li><li>Open the file and follow the installer.</li><li>Start <strong>Tor Browser</strong> from the folder or shortcut it created.</li></ol></div>
+            <div class="pane" data-p="mac"><ol><li>Choose <strong>macOS</strong> and download the disk image.</li><li>Open it and drag Tor Browser into <strong>Applications</strong>.</li><li>If macOS warns about an unknown developer, right-click the app and choose <strong>Open</strong>.</li></ol></div>
+            <div class="pane" data-p="lin"><ol><li>Choose <strong>Linux</strong> and download the archive.</li><li>Extract it, open the folder and run <code>start-tor-browser.desktop</code>, or <code>./start-tor-browser.desktop</code> from a terminal.</li><li>Your distribution may also offer a <code>torbrowser-launcher</code> package.</li></ol></div>
+            <div class="pane" data-p="and"><ol><li>Install <strong>Tor Browser</strong> from Google Play, F-Droid, or the official download page.</li><li>Open it and tap <strong>Connect</strong>.</li></ol></div>
+            <div class="pane" data-p="ios"><ol><li>There is no official Tor Browser for iPhone or iPad.</li><li>The Tor Project recommends <strong>Onion Browser</strong>, available on the App Store.</li><li>Open it and let it connect to Tor.</li></ol></div>
+            <div class="row"><button class="chk" data-d="1" aria-pressed="false">Mark as done</button></div>
+          </div>
+        </div>
+
+        <div class="step rv" data-s="2">
+          <div class="num">2</div>
+          <div>
+            <h3>Open it and press Connect</h3>
+            <p>The first time you open Tor Browser you will see a Connect button. Press it and wait while Tor builds a circuit. This usually takes under a minute. If it does not connect, jump to <a href="#bridges">If Tor is blocked</a>.</p>
+            <div class="row"><button class="chk" data-d="2" aria-pressed="false">Mark as done</button></div>
+          </div>
+        </div>
+
+        <div class="step rv" data-s="3">
+          <div class="num">3</div>
+          <div>
+            <h3>Check that Tor works</h3>
+            <p>In Tor Browser, open <a href="https://check.torproject.org/" target="_blank" rel="noopener">check.torproject.org</a>. A congratulations message means you are using Tor. Open it in Tor Browser itself, because a normal browser will say you are not.</p>
+            <div class="row"><button class="chk" data-d="3" aria-pressed="false">Mark as done</button></div>
+          </div>
+        </div>
+
+        <div class="step rv" data-s="4">
+          <div class="num">4</div>
+          <div>
+            <h3>Open GlowLinks</h3>
+            <p>Type <code>glowlinks.net</code> into the Tor Browser address bar and press Enter. To use the onion mirror, copy its address from the GlowLinks home page and paste it into the address bar. Onion addresses usually start with <code>http://</code>, and that is normal (see <a href="#https">HTTP vs HTTPS</a>). If the site offers an onion version, Tor Browser may show a purple <strong>.onion available</strong> button in the address bar.</p>
+            <div class="row"><a class="btn" href="https://glowlinks.net/" target="_blank" rel="noopener">Open GlowLinks</a><button class="chk" data-d="4" aria-pressed="false">Mark as done</button></div>
+          </div>
+        </div>
+
+        <div class="step rv" data-s="5">
+          <div class="num">5</div>
+          <div>
+            <h3>Choose a security level</h3>
+            <p>Click the shield icon in the toolbar and open <strong>Security Settings</strong>. <strong>Standard</strong> is the most comfortable, <strong>Safer</strong> turns off some risky features, and <strong>Safest</strong> blocks most scripts but breaks many pages. Safer is a good starting point.</p>
+            <div class="row"><button class="chk" data-d="5" aria-pressed="false">Mark as done</button></div>
+          </div>
+        </div>
+
+        <div class="tool rv" id="onion">
+          <h3>Onion address checker</h3>
+          <p class="intro" style="margin-top:6px">Paste an address to check its format. Current onion addresses are 56 letters and digits followed by .onion.</p>
+          <label for="oa" class="skip" style="position:absolute">Onion address</label>
+          <input id="oa" type="text" spellcheck="false" autocomplete="off" placeholder="paste an .onion address here">
+          <div class="verdict" id="ov" role="status"></div>
+          <p class="intro" style="margin-top:12px;font-size:.84rem">This only checks the format. It cannot tell you whether a site is safe or genuine, so always copy addresses from the GlowLinks home page. Onion links usually begin with http://, not https://, and that is normal.</p>
+        </div>
+      </section>
+
+      <section id="bridges">
+        <h2 class="rv">If Tor is blocked</h2>
+        <p class="intro rv">Some networks block Tor. Bridges are relays that are harder to block, and Tor Browser has them built in.</p>
+        <div class="step rv"><div class="num">&#9889;</div><div>
+          <h3>Use a bridge</h3>
+          <ol>
+            <li>Open Tor Browser and press <strong>Configure Connection</strong> instead of Connect.</li>
+            <li>Under <strong>Bridges</strong>, turn on <strong>Use a bridge</strong> and pick a built-in option such as <strong>Snowflake</strong> or <strong>obfs4</strong>.</li>
+            <li>Press <strong>Connect</strong>. If one type fails, try the other.</li>
+            <li>Still blocked? Ask for custom bridges at <a href="https://bridges.torproject.org/" target="_blank" rel="noopener">bridges.torproject.org</a> and paste them into the bridge box.</li>
+          </ol>
+        </div></div>
+      </section>
+
+      <section id="safety">
+        <h2 class="rv">Stay safe on Tor</h2>
+        <div class="tips">
+          <div class="tip rv"><span>&#128274;</span><div><h3>Use HTTPS on normal sites</h3><p>On clearnet sites, look for the padlock. Tor Browser tries to upgrade them to HTTPS for you.</p></div></div>
+          <div class="tip rv"><span>&#128683;</span><div><h3>No personal logins</h3><p>Do not sign in to accounts tied to your real name unless you have to.</p></div></div>
+          <div class="tip rv"><span>&#128230;</span><div><h3>Skip extra add-ons</h3><p>Extensions can make your browser easier to recognize. Use it as it comes.</p></div></div>
+          <div class="tip rv"><span>&#128208;</span><div><h3>Keep the window size</h3><p>Do not maximize the window. A standard size helps you blend in with other users.</p></div></div>
+          <div class="tip rv"><span>&#128260;</span><div><h3>Update regularly</h3><p>Install Tor Browser updates as soon as they appear. They fix security bugs.</p></div></div>
+          <div class="tip rv"><span>&#128193;</span><div><h3>Careful with downloads</h3><p>Do not open downloaded files while online, and avoid torrenting over Tor.</p></div></div>
+          <div class="tip rv"><span>&#127917;</span><div><h3>New identity</h3><p>Use the menu's <strong>New Identity</strong> to close everything and start fresh.</p></div></div>
+          <div class="tip rv"><span>&#9878;</span><div><h3>Know your laws</h3><p>Tor is legal in most countries. Follow the rules where you live.</p></div></div>
+        </div>
+        <div class="https rv" id="https">
+          <h3>Why .onion sites use http:// and not https://</h3>
+          <p>Seeing <code>http://</code> on an onion address is normal. Onion services are already encrypted and authenticated by Tor itself, so most of them skip the HTTPS certificates that normal websites use. HTTPS matters when you visit a normal website, one that does not end in .onion, through Tor.</p>
+          <div class="hh">
+            <div class="on">
+              <h4>.onion sites</h4>
+              <span class="ex">http://youraddress.onion</span>
+              <ul>
+                <li>Traffic is encrypted from your browser all the way to the site inside Tor. No exit relay is involved.</li>
+                <li>The address comes from the site's own key, so reaching the right address means you reached the right site. The address is the identity.</li>
+                <li>Most use plain <code>http://</code>. You will not see a padlock, and Tor Browser shows an onion symbol instead.</li>
+                <li>A few do offer HTTPS, but you do not need it.</li>
+              </ul>
+            </div>
+            <div class="cl">
+              <h4>Clearnet sites</h4>
+              <span class="ex">https://example.com</span>
+              <ul>
+                <li>Your traffic leaves Tor at an exit relay run by a volunteer, then travels the open internet to the site.</li>
+                <li>Without HTTPS, that exit relay can read and even change what you send and receive.</li>
+                <li>Always look for <code>https://</code> and the padlock.</li>
+                <li>Tor Browser upgrades sites to HTTPS automatically when it can.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="warn"><strong>The address is the proof.</strong> One wrong letter is a different site, and there is no padlock to warn you. Copy onion addresses from a trusted place and compare them with the signed pgp.txt below.</div>
+        </div>
+
+        <div class="pgp rv" id="pgp">
+          <h3>Check pgp.txt to see if a site was tampered with</h3>
+          <p>A PGP-signed file is a short text, often called <code>pgp.txt</code>, that lists the real addresses of a site and carries a digital signature. If anyone changes even one character after it was signed, the check fails. This is how you spot a fake mirror or a swapped onion address.</p>
+          <ol>
+            <li><strong>Install a PGP tool.</strong> Windows: <a href="https://www.gpg4win.org/" target="_blank" rel="noopener">Gpg4win</a> (includes Kleopatra). macOS: <a href="https://gpgtools.org/" target="_blank" rel="noopener">GPG Suite</a>. Linux: install <code>gnupg</code>, it is often already there. Android: OpenKeychain.</li>
+            <li><strong>Get the site's public key and its fingerprint.</strong> Download the key from the site, then compare the fingerprint (40 letters and numbers) on at least two other independent places, such as the onion mirror and another Glow site. If they do not all match, stop. A key from a single source proves nothing.</li>
+            <li><strong>Import the key and read its fingerprint.</strong>
+              <div class="cmd"><code>gpg --import publickey.asc</code><button class="cp" type="button">Copy</button></div>
+              <div class="cmd"><code>gpg --fingerprint</code><button class="cp" type="button">Copy</button></div>
+            </li>
+            <li><strong>Save pgp.txt and verify it.</strong> Do not open and re-save it in an editor, because a single added space breaks the signature. For a file that contains its own signature:
+              <div class="cmd"><code>gpg --verify pgp.txt</code><button class="cp" type="button">Copy</button></div>
+              For a separate signature file:
+              <div class="cmd"><code>gpg --verify pgp.txt.sig pgp.txt</code><button class="cp" type="button">Copy</button></div>
+              In Kleopatra, choose <strong>Decrypt/Verify</strong> and pick the file.
+            </li>
+            <li><strong>Read the result.</strong>
+              <div class="res">
+                <div class="g"><b>Good signature from ...</b> and the key fingerprint matches what you checked: the file is unchanged since it was signed.</div>
+                <div class="b"><b>BAD signature</b>: the file was altered or the wrong key was used. Do not trust anything in it.</div>
+                <div class="w"><b>No public key</b>: import the right key first, then verify again.</div>
+                <div class="w"><b>Key is not certified with a trusted signature</b>: this is normal if you have not personally trusted the key. What matters is that the fingerprint matches.</div>
+                <div class="w"><b>Expired key or signature</b>: look for a newer key or file from the site.</div>
+              </div>
+            </li>
+            <li><strong>Compare what it says.</strong> The onion address in the signed text must be the same as the one in your address bar, letter for letter. Check the date in the message too, so an old signed file cannot be replayed as a new one.</li>
+          </ol>
+          <div class="insp">
+            <h4>Signed message inspector</h4>
+            <p>Paste the contents of pgp.txt to check its structure and pull out the addresses. This runs only in your browser. It does not verify the signature, so you still need GnuPG or Kleopatra for that.</p>
+            <label for="pt" class="skip" style="position:absolute">pgp.txt contents</label>
+            <textarea id="pt" spellcheck="false" placeholder="-----BEGIN PGP SIGNED MESSAGE-----"></textarea>
+            <ul class="rep" id="rep" aria-live="polite"></ul>
+          </div>
+          <p style="margin-top:16px;font-size:.86rem">A valid signature proves the text came from whoever holds that private key and was not changed. It does not prove the key belongs to who you think, which is why you compare the fingerprint in several places. Do the check on your own device, not inside the page you are trying to verify.</p>
+        </div>
+      </section>
+
+      <section id="trouble">
+        <h2 class="rv">Troubleshooting</h2>
+        <div class="acc rv">
+          <details><summary>Tor will not connect</summary><p>Check that your device clock is correct, then try a bridge (see above). A firewall or antivirus can also block Tor, so try turning it off for a moment, or use another network.</p></details>
+          <details><summary>Pages load very slowly</summary><p>That is normal on Tor. Try the menu's New Tor circuit for this site, and lower the security level only if a page needs it.</p></details>
+          <details><summary>A site looks broken</summary><p>Safer and Safest turn off some features. If you trust the site, try Standard for that visit, then switch back.</p></details>
+          <details><summary>An onion address will not open</summary><p>Check that you copied the whole address with nothing added. Make sure you are using Tor Browser, because normal browsers cannot open .onion sites. If it still fails, the mirror may be down, so try again later.</p></details>
+          <details><summary>check.torproject.org says I am not using Tor</summary><p>Make sure you opened the page inside Tor Browser and that it finished connecting.</p></details>
+        </div>
+      </section>
+
+      <section id="vpn">
+        <h2 class="rv">Tor vs VPN</h2>
+        <p class="intro rv">They sound similar, but they solve different problems. A VPN moves your trust to one company. Tor spreads trust across several relays so nobody sees the whole picture.</p>
+        <div class="choose rv" id="choose" role="group" aria-label="What do you need?">
+          <button type="button" data-g="isp" aria-pressed="false">Hide traffic from my ISP or public Wi-Fi</button>
+          <button type="button" data-g="geo" aria-pressed="false">Watch region-locked video</button>
+          <button type="button" data-g="anon" aria-pressed="false">Stay anonymous from websites</button>
+          <button type="button" data-g="onion" aria-pressed="false">Open .onion mirrors</button>
+          <button type="button" data-g="cens" aria-pressed="false">Get around censorship</button>
+        </div>
+        <div class="answer rv" id="ans" aria-live="polite">Pick what you want to do and I will tell you which tool fits.</div>
+
+        <div class="tw rv">
+          <table>
+            <thead><tr><th></th><th>VPN</th><th>Tor</th></tr></thead>
+            <tbody>
+              <tr><td>Who you must trust</td><td>One company</td><td>No single party. Volunteer relays</td></tr>
+              <tr><td>Who sees your real IP</td><td>The VPN provider</td><td>Only the first relay (the guard)</td></tr>
+              <tr><td>Who sees the sites you visit</td><td>The VPN provider</td><td>The last relay (the exit) for normal sites. Nobody in the middle for onion sites</td></tr>
+              <tr><td>What it covers</td><td>Your whole device and every app</td><td>Tor Browser traffic only, unless you set up more</td></tr>
+              <tr><td>Speed</td><td>Close to normal</td><td>Slower, because of three hops</td></tr>
+              <tr><td>Cost</td><td>Usually paid. Free ones often sell your data</td><td>Free</td></tr>
+              <tr><td>Streaming and geo-unblocking</td><td>Often works</td><td>Poor. Slow, and many sites block Tor exits</td></tr>
+              <tr><td>Anonymity from websites</td><td>Weak. One shared IP, and your account, cookies and browser still identify you</td><td>Strong by design. The browser also fights fingerprinting</td></tr>
+              <tr><td>Onion sites</td><td>No</td><td>Yes</td></tr>
+              <tr><td>Hiding the tool from your ISP</td><td>ISP sees you use a VPN</td><td>ISP sees you use Tor, unless you use a bridge</td></tr>
+              <tr><td>Accounts and payment trail</td><td>Account and payment records</td><td>No account needed</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="two">
+          <div class="card rv"><h3>How a VPN works</h3><p>Your device builds an encrypted tunnel to the provider's server. Websites see the provider's address instead of yours, and your internet provider sees only the tunnel. The provider, though, can see your real address and where you go. A "no-logs" promise is just a promise, so independent audits and a good track record matter.</p></div>
+          <div class="card rv"><h3>How Tor works</h3><p>Tor Browser wraps your request in three layers of encryption and sends it through a guard, a middle relay and an exit. Each relay peels off one layer and learns only the step before and after it. The guard knows you but not your destination. The exit knows the destination, and for plain HTTP even the content, but not who you are.</p></div>
+          <div class="card rv"><h3>Should you use both?</h3><p>Most people do not need to. Tor over VPN, where you connect the VPN first and then open Tor Browser, hides Tor use from your internet provider, but the VPN can then see you connecting to Tor. If hiding Tor use is the goal, bridges are usually the better choice. Sending a VPN through Tor is complicated and easy to get wrong.</p></div>
+          <div class="card rv"><h3>The honest limits</h3><p>Neither tool protects you if you log in to an account with your real name, install risky software or reuse identifying details. A VPN also cannot stop sites recognizing your browser. Tor is slower and some sites block it. Use the one that fits the job.</p></div>
+        </div>
+
+        <div class="acc rv">
+          <details><summary>"A VPN makes me anonymous"</summary><p>It makes your internet provider and the sites you visit see a different address, nothing more. The VPN company still knows who you are, and your logins, cookies and browser fingerprint still identify you.</p></details>
+          <details><summary>"A no-logs VPN can be fully trusted"</summary><p>You cannot check a no-logs claim yourself. Look for independent audits, a clear jurisdiction and a record of the claim holding up, and still assume the provider could see your traffic.</p></details>
+          <details><summary>"Tor is only for criminals"</summary><p>Tor is built and funded for privacy and is used by journalists, researchers, activists and ordinary people. Being private is not suspicious.</p></details>
+          <details><summary>"If I use Tor I do not need HTTPS"</summary><p>For normal websites you do. The exit relay can see traffic to them, so HTTPS keeps the content hidden from it. .onion sites are different: Tor already encrypts and authenticates them, so plain http:// is normal there.</p></details>
+        </div>
+      </section>
+
+      <section id="faq">
+        <h2 class="rv">Frequently asked questions</h2>
+        <div class="acc rv">
+          <details><summary>Is it legal to use Tor?</summary><p>Tor is legal in most countries and is used by journalists, researchers and everyday people for privacy. Laws differ by country, so check the rules where you live.</p></details>
+          <details><summary>Do I need Tor to use GlowLinks?</summary><p>No. GlowLinks works in a normal browser at glowlinks.net. Tor is optional and is only needed for the .onion mirrors or for extra privacy.</p></details>
+          <details><summary>What is a .onion address?</summary><p>A .onion address is a website address that only works inside the Tor network. Current addresses are 56 characters long followed by .onion.</p></details>
+          <details><summary>Can I use Tor on my phone?</summary><p>Yes. Tor Browser is available for Android. On iPhone and iPad, the Tor Project recommends Onion Browser.</p></details>
+          <details><summary>Why is Tor slow?</summary><p>Your traffic is passed through three relays around the world, which adds delay. Pages load more slowly than usual, and that is normal.</p></details>
+          <details><summary>Is Tor the same as a VPN?</summary><p>No. A VPN routes your traffic through one provider you have to trust. Tor sends it through three volunteer relays so no single relay sees both who you are and where you go. See the full comparison in <a href="#vpn">Tor vs VPN</a>.</p></details>
+          <details><summary>How do I check a pgp.txt file for tampering?</summary><p>Install GnuPG, import the site's public key and confirm its fingerprint from more than one independent source, then run <code>gpg --verify pgp.txt</code>. A Good signature message with a matching fingerprint means the file was not changed after signing. BAD signature means it was altered. The <a href="#pgp">full steps</a> are above.</p></details>
+          <details><summary>Should I use a VPN together with Tor?</summary><p>Most people do not need to. Tor over VPN hides Tor use from your internet provider but adds a company that can see you connect to Tor. If you only need to hide Tor use, bridges are usually the better choice.</p></details>
+          <details><summary>Why do .onion sites use http:// instead of https://?</summary><p>Onion services are already encrypted and authenticated by Tor, so most use plain <code>http://</code> and that is normal. HTTPS matters for normal (clearnet) sites that do not end in .onion, because the exit relay could otherwise read your traffic. See <a href="#https">HTTP vs HTTPS</a> above.</p></details>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><strong style="color:#fff">GlowLinks Tor guide</strong><p style="margin-top:6px;max-width:44ch">An independent how-to for using Tor Browser. Tor and the Tor logo belong to the Tor Project.</p></div>
+      <div class="fl"><a href="https://glowlinks.net/">GlowLinks</a><a href="https://glownetwork.net/">Glow Network</a><a href="https://glowwavefm.com/">GlowWave FM</a><a href="https://glowllc.net/">Glow LLC</a></div>
+    </div>
+    <div class="fine"><p>&copy; <span id="yr">2026</span> Glow LLC. All rights reserved.</p></div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem("tg_" + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem("tg_" + k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var done = store.get("done", {});
+
+  function toast(m) {
+    var t = $("#toast");
+    t.textContent = m; t.classList.add("show");
+    clearTimeout(toast.h);
+    toast.h = setTimeout(function () { t.classList.remove("show"); }, 1800);
+  }
+  function paint() {
+    var n = 0;
+    all(".step[data-s]").forEach(function (s) {
+      var on = !!done[s.dataset.s];
+      if (on) n++;
+      s.classList.toggle("done", on);
+      var b = $("[data-d]", s);
+      if (b) { b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "Done" : "Mark as done"; }
+    });
+    $("#prog").style.width = n / 5 * 100 + "%";
+  }
+  all("[data-d]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var k = b.dataset.d;
+      done[k] = !done[k];
+      store.set("done", done);
+      paint();
+      if (done[k] && Object.keys(done).filter(function (x) { return done[x]; }).length === 5) toast("All done. You are ready to use Tor.");
+    });
+  });
+  paint();
+
+  function os(id) {
+    all("#os button").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.os === id ? "true" : "false"); });
+    all(".pane").forEach(function (p) { p.classList.toggle("on", p.dataset.p === id); });
+  }
+  all("#os button").forEach(function (b) { b.addEventListener("click", function () { os(b.dataset.os); store.set("os", b.dataset.os); }); });
+  var ua = navigator.userAgent || "", guess = /Android/i.test(ua) ? "and" : /iPhone|iPad|iPod/i.test(ua) ? "ios" : /Mac/i.test(ua) ? "mac" : /Linux|X11/i.test(ua) ? "lin" : "win";
+  os(store.get("os", guess));
+
+  var oa = $("#oa"), ov = $("#ov");
+  oa.addEventListener("input", function () {
+    var v = oa.value.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+    if (!v) { ov.className = "verdict"; return; }
+    if (/^[a-z2-7]{56}\.onion$/.test(v)) { ov.className = "verdict ok"; ov.textContent = "Format looks right: a valid-length v3 onion address."; }
+    else if (/^[a-z2-7]{16}\.onion$/.test(v)) { ov.className = "verdict bad"; ov.textContent = "This is an old 16-character address. Those no longer work. Look for a 56-character one."; }
+    else if (/\.onion$/.test(v)) { ov.className = "verdict bad"; ov.textContent = "Wrong length. Current onion addresses are 56 characters before .onion. You have " + v.replace(/\.onion$/, "").length + "."; }
+    else { ov.className = "verdict bad"; ov.textContent = "That does not end in .onion."; }
+  });
+
+  var tocLinks = all("#toc a"), secs = tocLinks.map(function (a) { return $(a.getAttribute("href")); });
+  function spy() {
+    var y = window.scrollY + 140, cur = 0;
+    secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+    tocLinks.forEach(function (a, i) { a.classList.toggle("on", i === cur); });
+  }
+  window.addEventListener("scroll", spy, { passive: true });
+  spy();
+
+  var root = document.documentElement, still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!still) window.addEventListener("pointermove", function (e) { root.style.setProperty("--mx", e.clientX + "px"); root.style.setProperty("--my", e.clientY + "px"); }, { passive: true });
+  all(".card").forEach(function (t) {
+    t.addEventListener("pointermove", function (e) { var r = t.getBoundingClientRect(); t.style.setProperty("--tx", e.clientX - r.left + "px"); t.style.setProperty("--ty", e.clientY - r.top + "px"); });
+  });
+  var items = all(".rv");
+  if (!("IntersectionObserver" in window) || still) { items.forEach(function (n) { n.classList.add("in"); }); }
+  else {
+    var io = new IntersectionObserver(function (l) { l.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }); }, { threshold: 0.1 });
+    items.forEach(function (n, i) { n.style.transitionDelay = (i % 3) * 70 + "ms"; io.observe(n); });
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".cp");
+    if (!b) return;
+    var t = $("code", b.parentNode).textContent;
+    function ok() { toast("Copied"); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok).catch(ok);
+    else { var a = document.createElement("textarea"); a.value = t; a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select(); try { document.execCommand("copy"); } catch (x) {} a.remove(); ok(); }
+  });
+
+  var pt = $("#pt"), rep = $("#rep");
+  function line(cls, text, code) {
+    var li = document.createElement("li");
+    li.className = cls;
+    li.appendChild(document.createTextNode(text));
+    if (code) { var c = document.createElement("code"); c.textContent = code; li.appendChild(c); }
+    rep.appendChild(li);
+  }
+  function inspect() {
+    rep.innerHTML = "";
+    var t = pt.value.replace(/\r/g, "");
+    if (!t.trim()) return;
+    var H = "-----BEGIN PGP SIGNED MESSAGE-----", SB = "-----BEGIN PGP SIGNATURE-----", SE = "-----END PGP SIGNATURE-----";
+    var h = t.indexOf(H), sb = t.indexOf(SB), se = t.indexOf(SE);
+    if (h < 0) { line("no", "No signed message header found. This does not look like a clear-signed pgp.txt."); return; }
+    line("ok", "Signed message header found.");
+    var hm = t.slice(h).match(/^Hash:\s*(.+)$/m);
+    if (hm) { var w = /MD5|SHA1\b/i.test(hm[1]); line(w ? "wn" : "ok", (w ? "Weak hash in use: " : "Hash: ") + hm[1].trim()); }
+    if (sb < 0 || se < 0 || se < sb) { line("no", "Signature block is missing or cut off. The file is incomplete."); return; }
+    line("ok", "Signature block found.");
+    var before = t.slice(0, h).trim(), after = t.slice(se + SE.length).trim();
+    if (before || after) line("wn", "There is text outside the signed block. The signature does not cover it, so ignore it.");
+    var body = t.slice(h, sb), found = {}, bad = {};
+    (body.match(/[a-z2-7]+\.onion\b/gi) || []).forEach(function (m) { var l = m.toLowerCase(); if (/^[a-z2-7]{56}\.onion$/.test(l)) found[l] = 1; else bad[l] = 1; });
+    var f = Object.keys(found), bd = Object.keys(bad);
+    if (f.length) { line("ok", f.length + " onion address" + (f.length > 1 ? "es" : "") + " inside the signed text. Compare each with your address bar:"); f.forEach(function (a) { line("ok", "", a); }); }
+    else line("wn", "No full-length onion address found inside the signed text.");
+    bd.forEach(function (a) { line("no", "Malformed onion address (wrong length): ", a); });
+    line("wn", "Format checks only. Run gpg --verify on your own device to check the signature.");
+  }
+  pt.addEventListener("input", inspect);
+
+  var ANS = {
+    isp: ["A VPN is the easiest fit", "It keeps your internet provider and the Wi-Fi owner from seeing where you go, and it is fast. Tor also works here but is slower. Either way, stick to HTTPS sites."],
+    geo: ["Use a VPN", "A VPN can make you appear to be in another country at near normal speed. Tor is too slow for video and many streaming sites block it."],
+    anon: ["Use Tor Browser", "Tor is built so no single party knows who you are and what you view. A VPN alone leaves the VPN company knowing both, and your logins still identify you."],
+    onion: ["Tor only", "Onion addresses only exist inside the Tor network, so you need Tor Browser. A VPN cannot open them."],
+    cens: ["Tor with a bridge, or a VPN that works where you are", "Snowflake and obfs4 bridges are designed to get past blocks on Tor. Some VPNs also work, but they are often blocked in strict countries. Try a bridge first."]
+  };
+  all("#choose button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      all("#choose button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      var a = ANS[b.dataset.g], box = $("#ans");
+      box.innerHTML = "";
+      var strong = document.createElement("b");
+      strong.textContent = a[0];
+      box.appendChild(strong);
+      box.appendChild(document.createTextNode(a[1]));
+    });
+  });
+
+  $("#yr").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
